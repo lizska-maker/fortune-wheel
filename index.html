@@ -164,7 +164,7 @@ body {
 
 .layout {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.25fr);
     gap: 32px;
     align-items: start;
     padding-bottom: 50px;
@@ -300,9 +300,9 @@ body {
     font-weight: 500;
 }
 
-/* Колесо */
+/* КРУПНОЕ КОЛЕСО */
 .wheel-card {
-    padding: 32px;
+    padding: 36px;
     background: var(--surface-glass);
     border: 1px solid rgba(233, 30, 140, 0.14);
     border-radius: var(--radius);
@@ -317,27 +317,27 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     text-align: left;
 }
-.wheel-card-head h2 { font-size: 22px; font-weight: 800; }
+.wheel-card-head h2 { font-size: 24px; font-weight: 800; }
 .wheel-badge {
-    padding: 6px 12px;
+    padding: 6px 14px;
     border-radius: 999px;
     background: var(--pink-light);
     color: var(--pink-deep);
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 800;
 }
 
 .wheel-stage {
-    --wheel: 440px;
-    --lw: 80px;
-    --lf: 11px;
-    --lr: 155px;
+    --wheel: 540px;  /* Возвращен большой размер колеса */
+    --lw: 96px;      /* Ширина сектора */
+    --lf: 13px;      /* Крупный размер шрифта на секторах */
+    --lr: 190px;     /* Радиус выноса текста */
     width: var(--wheel);
     height: var(--wheel);
-    margin: 20px auto;
+    margin: 24px auto;
     position: relative;
     isolation: isolate;
 }
@@ -345,7 +345,7 @@ body {
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    border: 10px solid #fff;
+    border: 12px solid #fff;
     background: conic-gradient(
         from -13.84deg, 
         #fbe4ef 0deg 27.69deg, #fff 27.69deg 29.69deg, 
@@ -362,7 +362,7 @@ body {
         #fff0f6 326.59deg 354.28deg, #fff 354.28deg 356.28deg,
         #fbe4ef 356.28deg 360deg
     );
-    box-shadow: 0 30px 60px -28px rgba(173, 20, 87, 0.5), inset 0 0 0 1px rgba(233, 30, 140, 0.1);
+    box-shadow: 0 35px 70px -30px rgba(173, 20, 87, 0.55), inset 0 0 0 1px rgba(233, 30, 140, 0.1);
     transition: transform 5.2s cubic-bezier(0.15, 1, 0.3, 1);
     transform: rotate(0deg);
     will-change: transform;
@@ -372,9 +372,9 @@ body {
     left: 50%;
     top: 50%;
     width: var(--lw);
-    height: 50px;
+    height: 56px;
     margin-left: calc(var(--lw) / -2);
-    margin-top: -25px;
+    margin-top: -28px;
     transform: rotate(var(--a)) translateY(calc(var(--lr) * -1)) rotate(calc(var(--a) * -1));
     display: flex;
     flex-direction: column;
@@ -384,37 +384,37 @@ body {
     color: var(--ink);
     font-size: var(--lf);
     font-weight: 800;
-    line-height: 1.1;
+    line-height: 1.15;
     pointer-events: none;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
 }
-.wl-icon { font-size: 1.25em; margin-bottom: 2px; }
+.wl-icon { font-size: 1.35em; margin-bottom: 2px; }
 .wl-text { display: block; max-width: 100%; white-space: normal; }
 
 .pointer {
     position: absolute;
     left: 50%;
-    top: -12px;
+    top: -14px;
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 18px solid transparent;
-    border-right: 18px solid transparent;
-    border-top: 32px solid var(--pink);
-    filter: drop-shadow(0 7px 8px rgba(173, 20, 87, 0.3));
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 36px solid var(--pink);
+    filter: drop-shadow(0 8px 10px rgba(173, 20, 87, 0.35));
     z-index: 30;
     pointer-events: none;
 }
 .pointer::after {
     content: '';
     position: absolute;
-    left: -6px;
-    top: -12px;
-    width: 12px;
-    height: 12px;
+    left: -7px;
+    top: -14px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     background: #fff;
-    box-shadow: 0 2px 6px rgba(173, 20, 87, 0.2);
+    box-shadow: 0 2px 6px rgba(173, 20, 87, 0.25);
 }
 
 .spin-btn {
@@ -422,11 +422,11 @@ body {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 120px;
-    height: 120px;
+    width: 145px;
+    height: 145px;
     border-radius: 50%;
-    border: 8px solid #fff;
-    background: radial-gradient(circle at 34% 25%, rgba(255, 255, 255, 0.4), transparent 35%), linear-gradient(145deg, var(--pink), var(--pink-deep));
+    border: 9px solid #fff;
+    background: radial-gradient(circle at 34% 25%, rgba(255, 255, 255, 0.45), transparent 35%), linear-gradient(145deg, var(--pink), var(--pink-deep));
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -435,20 +435,20 @@ body {
     gap: 2px;
     cursor: pointer;
     z-index: 20;
-    box-shadow: 0 16px 34px -14px rgba(173, 20, 87, 0.72);
+    box-shadow: 0 18px 38px -14px rgba(173, 20, 87, 0.75);
     transition: transform 0.22s ease, filter 0.22s ease;
 }
 .spin-btn:hover:not(:disabled) { transform: translate(-50%, -50%) scale(1.045); filter: brightness(1.05); }
 .spin-btn:active:not(:disabled) { transform: translate(-50%, -50%) scale(0.98); }
 .spin-btn:disabled { cursor: wait; opacity: 0.9; }
-.spin-kicker { font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 800; opacity: 0.7; }
-.spin-title { font-size: 16px; font-weight: 800; }
-.spin-sub { font-size: 9px; font-weight: 600; opacity: 0.8; }
+.spin-kicker { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 800; opacity: 0.75; }
+.spin-title { font-size: 19px; font-weight: 800; }
+.spin-sub { font-size: 10px; font-weight: 600; opacity: 0.85; }
 
 .wheel-note {
-    margin-top: 10px;
+    margin-top: 14px;
     color: var(--muted);
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
 }
 
@@ -522,10 +522,10 @@ body {
 }
 .btn-main:hover { transform: translateY(-1px); filter: brightness(1.05); }
 
-@media (max-width: 1024px) {
+@media (max-width: 1100px) {
     .layout { grid-template-columns: 1fr; }
     .topbar, main, .footer { width: min(100% - 32px, 1520px); }
-    .wheel-stage { --wheel: 380px; --lr: 132px; }
+    .wheel-stage { --wheel: 420px; --lr: 145px; }
 }
 </style>
 </head>
@@ -624,7 +624,7 @@ body {
             </ul>
         </section>
 
-        <!-- Правая колонка: Колесо -->
+        <!-- Правая колонка: Большое Колесо -->
         <section class="wheel-card">
             <div class="wheel-card-head">
                 <div>
