@@ -4,18 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Колесо Фортуны · МПЛ</title>
-<meta name="description" content="Конкурс для МПЛ: условия участия, призовые сектора и колесо Фортуны.">
+<meta name="description" content="Конкурс для МПЛ: пять условий, двенадцать призовых секторов и одно колесо Фортуны.">
 <meta name="theme-color" content="#e91e8c">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎡</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
     --bg: #fdf2f7;
     --bg-deep: #fbe4ee;
     --surface: #fffdfd;
-    --surface-glass: rgba(255, 253, 253, 0.88);
+    --surface-glass: rgba(255, 253, 253, 0.78);
     --pink: #e91e8c;
     --pink-deep: #b01668;
     --pink-mid: #f48fb1;
@@ -23,15 +23,20 @@
     --pink-light: #fce4ec;
     --pink-pale: #fff5f9;
     --ink: #3d1a29;
-    --muted: #7d4857;
-    --line: rgba(233, 30, 140, 0.16);
-    --radius: 28px;
+    --muted: #9e6070;
+    --line: rgba(233, 30, 140, 0.15);
+    --green: #3fae74;
+    --green-light: #e8f7ee;
+    --shadow: 0 30px 70px -42px rgba(173, 20, 87, 0.48);
+    --shadow-soft: 0 14px 38px -26px rgba(173, 20, 87, 0.38);
+    --radius: 30px;
     --font: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { min-height: 100vh; }
+html { scroll-behavior: smooth; }
 body {
+    min-height: 100vh;
     font-family: var(--font);
     color: var(--ink);
     background:
@@ -41,18 +46,57 @@ body {
         linear-gradient(180deg, #fff8fb 0%, var(--bg) 42%, #fff6fa 100%);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
-    display: flex;
-    flex-direction: column;
-    padding: 20px 2.5vw;
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    inset: -20%;
+    pointer-events: none;
+    background:
+        radial-gradient(30vw 30vw at 20% 30%, rgba(255, 255, 255, 0.7), transparent 65%),
+        radial-gradient(26vw 26vw at 85% 70%, rgba(255, 255, 255, 0.5), transparent 65%);
+    z-index: 0;
+}
+body.modal-open { overflow: hidden; }
+
+button { font-family: inherit; }
+a { color: inherit; }
+
+.ambient {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+.spark {
+    position: absolute;
+    color: var(--pink-soft);
+    opacity: 0.7;
+    font-size: 22px;
+    animation: floaty 9s ease-in-out infinite;
+}
+.spark.s1 { left: 5%; top: 19%; animation-delay: -1s; font-size: 18px; }
+.spark.s2 { right: 4%; top: 31%; animation-delay: -4s; font-size: 28px; }
+.spark.s3 { left: 8%; bottom: 17%; animation-delay: -2s; font-size: 24px; }
+.spark.s4 { right: 9%; bottom: 10%; animation-delay: -6s; font-size: 17px; }
+.spark.s5 { left: 46%; top: 7%; animation-delay: -3s; font-size: 14px; opacity: 0.45; }
+
+@keyframes floaty {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-18px) rotate(7deg); }
 }
 
 .topbar, main, .footer {
-    width: 100%;
-    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    width: min(1240px, calc(100% - 40px));
+    margin-left: auto;
+    margin-right: auto;
 }
-
 .topbar {
-    padding-bottom: 12px;
+    padding: 24px 0 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -61,355 +105,402 @@ body {
 .brand {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    font-size: clamp(18px, 1.3vw, 22px);
+    gap: 11px;
+    font-size: 15px;
     font-weight: 800;
+    letter-spacing: -0.03em;
 }
 .brand-mark {
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
     border-radius: 14px;
     display: grid;
     place-items: center;
-    font-size: 22px;
+    font-size: 21px;
     background: linear-gradient(135deg, #fff, var(--pink-light));
     border: 1px solid var(--line);
+    box-shadow: var(--shadow-soft);
 }
 .brand-word small {
     display: block;
     color: var(--muted);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
+    margin-top: 1px;
 }
 .top-pill {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 18px;
+    padding: 9px 14px;
     border-radius: 999px;
     color: var(--pink-deep);
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.62);
     border: 1px solid var(--line);
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 700;
+    box-shadow: 0 8px 24px -20px rgba(173, 20, 87, 0.4);
 }
 .top-pill::before { content: '✦'; color: var(--pink); }
 
-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
 .hero {
-    padding: 8px 0;
+    padding: 44px 0 30px;
+    max-width: 900px;
 }
 .eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
+    gap: 8px;
+    padding: 7px 12px;
     border-radius: 999px;
     color: var(--pink-deep);
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.58);
     border: 1px solid var(--line);
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 800;
     letter-spacing: 0.16em;
     text-transform: uppercase;
 }
-.eyebrow::before { content: '✦'; }
+.eyebrow::before { content: '✦'; font-size: 12px; }
 .hero h1 {
-    margin-top: 8px;
-    font-size: clamp(36px, 3.5vw, 62px);
-    line-height: 1.05;
+    margin-top: 16px;
+    font-size: clamp(46px, 6.4vw, 82px);
+    line-height: 0.98;
+    letter-spacing: -0.065em;
     font-weight: 800;
-    letter-spacing: -0.04em;
+    max-width: 780px;
 }
-.hero h1 span { color: var(--pink); }
+.hero h1 span { color: var(--pink); display: inline-block; margin-left: .06em; }
 .hero p {
-    margin-top: 8px;
+    max-width: 590px;
+    margin-top: 18px;
     color: var(--muted);
-    font-size: clamp(15px, 1.1vw, 20px);
-    line-height: 1.45;
-    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.65;
+    font-weight: 500;
 }
 .hero-stats {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 14px;
+    margin-top: 24px;
 }
 .hero-stat {
     display: inline-flex;
     align-items: baseline;
-    gap: 8px;
-    padding: 8px 16px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.85);
+    gap: 6px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.58);
     border: 1px solid var(--line);
-    font-size: 14px;
+    font-size: 12px;
     color: var(--muted);
-    font-weight: 700;
+    font-weight: 600;
 }
-.hero-stat b { color: var(--pink-deep); font-size: 18px; font-weight: 800; }
+.hero-stat b { color: var(--pink-deep); font-size: 16px; font-weight: 800; }
 
 .layout {
     display: grid;
-    grid-template-columns: 1fr 1.25fr;
+    grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+    grid-template-rows: auto;
     gap: 24px;
-    align-items: stretch;
-    flex: 1;
+    align-items: start;
+    padding-bottom: 46px;
 }
+.side { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; gap: 16px; }
+.wheel-card { grid-column: 2; grid-row: 1; }
 
 .panel {
-    background: var(--surface-glass);
-    border: 1px solid rgba(233, 30, 140, 0.16);
+    background: rgba(255, 253, 253, 0.76);
+    border: 1px solid rgba(233, 30, 140, 0.12);
     border-radius: var(--radius);
-    box-shadow: 0 16px 40px -20px rgba(173, 20, 87, 0.25);
-    padding: clamp(20px, 2vw, 32px);
+    box-shadow: var(--shadow-soft);
+    padding: 24px;
     backdrop-filter: blur(16px);
-    display: flex;
-    flex-direction: column;
+    -webkit-backdrop-filter: blur(16px);
 }
 .panel-head {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 14px;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 .panel-kicker {
     display: block;
     color: var(--pink);
-    font-size: 11px;
+    font-size: 9px;
     font-weight: 800;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 .panel h2 {
-    font-size: clamp(22px, 1.6vw, 30px);
-    line-height: 1.15;
+    font-size: 24px;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
     font-weight: 800;
 }
 .panel-count {
     flex-shrink: 0;
-    padding: 6px 14px;
+    padding: 6px 9px;
     border-radius: 999px;
     color: var(--pink-deep);
     background: var(--pink-pale);
     border: 1px solid var(--line);
-    font-size: 13px;
-    font-weight: 800;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
 }
 
-.friday-banner {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    padding: 12px 16px;
-    margin-bottom: 16px;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #fff, var(--pink-pale));
-    border: 1px solid rgba(233, 30, 140, 0.16);
+.conditions { display: flex; flex-direction: column; gap: 0; }
+.condition {
+    display: grid;
+    grid-template-columns: 38px 1fr;
+    gap: 13px;
+    padding: 15px 0;
+    border-top: 1px solid rgba(233, 30, 140, 0.09);
 }
-.friday-mark {
-    flex-shrink: 0;
-    padding: 5px 10px;
-    border-radius: 8px;
-    background: var(--pink);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 800;
-}
-.friday-banner b {
-    display: block;
+.condition:first-child { border-top: 0; padding-top: 0; }
+.condition:last-child { padding-bottom: 0; }
+.cond-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
     color: var(--pink-deep);
-    font-size: 15px;
+    background: linear-gradient(135deg, #fff, var(--pink-light));
+    border: 1px solid var(--line);
+    font-size: 10px;
     font-weight: 800;
+    letter-spacing: 0.04em;
 }
-.friday-banner p {
-    color: var(--muted);
-    font-size: 13px;
+.condition h3 {
+    font-size: 14px;
     line-height: 1.35;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+.condition p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+    font-weight: 500;
+}
+.cond-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+}
+.cond-chip {
+    padding: 4px 7px;
+    border-radius: 7px;
+    background: #fff;
+    border: 1px solid rgba(233, 30, 140, 0.13);
+    color: var(--pink-deep);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+.side-note {
+    margin-top: 16px;
+    padding-top: 13px;
+    border-top: 1px solid rgba(233, 30, 140, 0.09);
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
     font-weight: 500;
 }
 
-.conditions-static {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    flex: 1;
-    justify-content: space-between;
-}
-.condition {
+.prize-list {
     display: grid;
-    grid-template-columns: 10px minmax(0, 1fr);
-    gap: 14px;
-    align-items: start;
-    padding-top: 12px;
-    border-top: 1px solid rgba(233, 30, 140, 0.1);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
 }
-.condition:first-child { border-top: 0; padding-top: 0; }
-.cond-dot {
-    width: 10px;
-    height: 10px;
-    margin-top: 6px;
-    border-radius: 50%;
-    background: var(--pink);
-    box-shadow: 0 0 0 4px var(--pink-light);
+.prize-panel-wide {
+    margin: 0 0 46px;
 }
-.cond-top {
+.prize-panel-wide .prize-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.prize-item {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     gap: 8px;
-    margin-bottom: 4px;
+    min-width: 0;
+    padding: 9px 10px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(233, 30, 140, 0.1);
 }
-.cond-title {
+.pi-icon {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: var(--pink-pale);
+    font-size: 14px;
+}
+.pi-name {
+    min-width: 0;
     color: var(--ink);
-    font-size: clamp(15px, 1.1vw, 18px);
-    font-weight: 800;
+    font-size: 10.5px;
+    line-height: 1.3;
+    font-weight: 700;
 }
-.cond-tag {
-    padding: 3px 8px;
+.pi-count {
+    margin-left: auto;
+    flex-shrink: 0;
+    padding: 3px 6px;
     border-radius: 6px;
-    font-size: 11px;
-    font-weight: 800;
     color: var(--pink-deep);
     background: var(--pink-light);
+    font-size: 9px;
+    font-weight: 800;
+    white-space: nowrap;
 }
-.cond-desc {
-    color: var(--muted);
-    font-size: clamp(13px, 0.9vw, 15px);
-    line-height: 1.4;
-    font-weight: 600;
-}
+.prize-item.is-multi { border-color: rgba(233, 30, 140, 0.22); background: #fff; }
+.prize-item.is-multi .pi-count { background: var(--pink); color: #fff; }
 
-/* БОЛЬШОЕ УВЕЛИЧЕННОЕ КОЛЕСО */
 .wheel-card {
-    padding: clamp(20px, 2vw, 32px);
-    background: var(--surface-glass);
-    border: 1px solid rgba(233, 30, 140, 0.16);
-    border-radius: var(--radius);
-    box-shadow: 0 20px 50px -25px rgba(173, 20, 87, 0.35);
+    min-width: 0;
+    padding: 22px 22px 19px;
+    background: rgba(255, 253, 253, 0.7);
+    border: 1px solid rgba(233, 30, 140, 0.13);
+    border-radius: 36px;
+    box-shadow: var(--shadow);
     backdrop-filter: blur(18px);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
+    -webkit-backdrop-filter: blur(18px);
+    position: relative;
+    overflow: hidden;
+}
+.wheel-card::before {
+    content: '';
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    right: -130px;
+    top: -120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(248, 187, 208, 0.5), transparent 70%);
+    pointer-events: none;
 }
 .wheel-card-head {
-    width: 100%;
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
-    text-align: left;
+    gap: 12px;
+    margin-bottom: 4px;
 }
-.wheel-card-head h2 { font-size: clamp(22px, 1.6vw, 28px); font-weight: 800; }
+.wheel-card-head .panel-kicker { margin-bottom: 0; }
+.wheel-card-head h2 {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
 .wheel-badge {
-    padding: 6px 14px;
+    padding: 6px 9px;
     border-radius: 999px;
     background: var(--pink-light);
     color: var(--pink-deep);
-    font-size: 13px;
+    font-size: 10px;
     font-weight: 800;
+    white-space: nowrap;
 }
 
 .wheel-stage {
-    /* Увеличенный адаптивный диаметр */
-    --wheel: clamp(440px, min(42vw, 68vh), 680px);
-    --lw: calc(var(--wheel) * 0.2);
-    --lf: calc(var(--wheel) * 0.027);
-    --lr: calc(var(--wheel) * 0.35);
+    --wheel: clamp(300px, 38vw, 540px);
+    --lw: clamp(52px, calc(var(--wheel) * 0.165), 86px);
+    --lf: clamp(8px, calc(var(--wheel) * 0.022), 12px);
+    --lr: calc(var(--wheel) * 0.36);
     width: var(--wheel);
     height: var(--wheel);
-    margin: auto;
+    margin: 18px auto 12px;
     position: relative;
     isolation: isolate;
-    flex-shrink: 0;
 }
 .wheel {
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    border: clamp(10px, 1vw, 15px) solid #fff;
-    background: conic-gradient(
-        from -13.84deg, 
-        #fbe4ef 0deg 27.69deg, #fff 27.69deg 29.69deg, 
-        #fff7fb 29.69deg 57.38deg, #fff 57.38deg 59.38deg, 
-        #f7d1e2 59.38deg 87.07deg, #fff 87.07deg 89.07deg, 
-        #fff1f7 89.07deg 116.76deg, #fff 116.76deg 118.76deg, 
-        #f9dbe9 118.76deg 146.45deg, #fff 146.45deg 148.45deg, 
-        #fff9fc 148.45deg 176.14deg, #fff 176.14deg 178.14deg, 
-        #f5c9dd 178.14deg 205.83deg, #fff 205.83deg 207.83deg, 
-        #fff4f8 207.83deg 235.52deg, #fff 235.52deg 237.52deg, 
-        #fae0ec 237.52deg 265.21deg, #fff 265.21deg 267.21deg, 
-        #fff8fb 267.21deg 294.90deg, #fff 294.90deg 296.90deg, 
-        #f6cede 296.90deg 324.59deg, #fff 324.59deg 326.59deg, 
-        #fff0f6 326.59deg 354.28deg, #fff 354.28deg 356.28deg,
-        #fbe4ef 356.28deg 360deg
-    );
-    box-shadow: 0 35px 70px -30px rgba(173, 20, 87, 0.55);
+    border: 9px solid #fff;
+    background: conic-gradient(from -15deg, #fbe4ef 0deg 29deg, #fff 29deg 30deg, #fff7fb 30deg 59deg, #fff 59deg 60deg, #f7d1e2 60deg 89deg, #fff 89deg 90deg, #fff1f7 90deg 119deg, #fff 119deg 120deg, #f9dbe9 120deg 149deg, #fff 149deg 150deg, #fff9fc 150deg 179deg, #fff 179deg 180deg, #f5c9dd 180deg 209deg, #fff 209deg 210deg, #fff4f8 210deg 239deg, #fff 239deg 240deg, #fae0ec 240deg 269deg, #fff 269deg 270deg, #fff8fb 270deg 299deg, #fff 299deg 300deg, #f6cede 300deg 329deg, #fff 329deg 330deg, #fff0f6 330deg 359deg, #fff 359deg 360deg);
+    box-shadow:
+        0 30px 60px -28px rgba(173, 20, 87, 0.5),
+        0 0 0 1px rgba(233, 30, 140, 0.1),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.8);
     transition: transform 5.2s cubic-bezier(0.15, 1, 0.3, 1);
     transform: rotate(0deg);
     will-change: transform;
+    overflow: hidden;
+}
+.wheel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 2px rgba(233, 30, 140, 0.12), inset 0 0 30px rgba(255, 255, 255, 0.6);
+    pointer-events: none;
 }
 .wheel-label {
     position: absolute;
     left: 50%;
     top: 50%;
     width: var(--lw);
-    height: 56px;
+    height: 38px;
     margin-left: calc(var(--lw) / -2);
-    margin-top: -28px;
+    margin-top: -19px;
     transform: rotate(var(--a)) translateY(calc(var(--lr) * -1)) rotate(calc(var(--a) * -1));
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 1px;
     text-align: center;
     color: var(--ink);
     font-size: var(--lf);
     font-weight: 800;
-    line-height: 1.15;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
     pointer-events: none;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
 }
-.wl-icon { font-size: 1.45em; margin-bottom: 3px; }
-.wl-text { display: block; max-width: 100%; white-space: normal; }
+.wl-icon { font-size: 1.35em; line-height: 1; filter: saturate(0.9); }
+.wl-text { display: block; max-width: 100%; white-space: nowrap; }
+.wheel-label.is-long .wl-text { white-space: normal; }
 
 .pointer {
     position: absolute;
     left: 50%;
-    top: -16px;
+    top: -8px;
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 22px solid transparent;
-    border-right: 22px solid transparent;
-    border-top: 38px solid var(--pink);
-    filter: drop-shadow(0 8px 10px rgba(173, 20, 87, 0.35));
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-top: 29px solid var(--pink);
+    filter: drop-shadow(0 7px 8px rgba(173, 20, 87, 0.28));
     z-index: 30;
     pointer-events: none;
 }
 .pointer::after {
     content: '';
     position: absolute;
-    left: -7px;
-    top: -14px;
-    width: 14px;
-    height: 14px;
+    left: -5px;
+    top: -11px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: #fff;
-    box-shadow: 0 2px 6px rgba(173, 20, 87, 0.25);
+    box-shadow: 0 2px 6px rgba(173, 20, 87, 0.2);
 }
 
 .spin-btn {
@@ -417,11 +508,13 @@ main {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: calc(var(--wheel) * 0.27);
-    height: calc(var(--wheel) * 0.27);
+    width: calc(var(--wheel) * 0.29);
+    height: calc(var(--wheel) * 0.29);
     border-radius: 50%;
-    border: clamp(6px, 0.7vw, 10px) solid #fff;
-    background: radial-gradient(circle at 34% 25%, rgba(255, 255, 255, 0.45), transparent 35%), linear-gradient(145deg, var(--pink), var(--pink-deep));
+    border: 7px solid #fff;
+    background:
+        radial-gradient(circle at 34% 25%, rgba(255, 255, 255, 0.3), transparent 35%),
+        linear-gradient(145deg, var(--pink), var(--pink-deep));
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -430,34 +523,70 @@ main {
     gap: 2px;
     cursor: pointer;
     z-index: 20;
-    box-shadow: 0 18px 38px -14px rgba(173, 20, 87, 0.75);
-    transition: transform 0.22s ease, filter 0.22s ease;
+    box-shadow:
+        0 16px 34px -14px rgba(173, 20, 87, 0.72),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.24);
+    transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
 }
-.spin-btn:hover:not(:disabled) { transform: translate(-50%, -50%) scale(1.045); filter: brightness(1.05); }
+.spin-btn:hover:not(:disabled) { transform: translate(-50%, -50%) scale(1.045); filter: brightness(1.04); }
 .spin-btn:active:not(:disabled) { transform: translate(-50%, -50%) scale(0.98); }
-.spin-btn:disabled { cursor: wait; opacity: 0.9; }
-.spin-kicker { font-size: calc(var(--lf) * 0.75); letter-spacing: 0.16em; text-transform: uppercase; font-weight: 800; opacity: 0.75; }
-.spin-title { font-size: calc(var(--lf) * 1.35); font-weight: 800; }
-.spin-sub { font-size: calc(var(--lf) * 0.75); font-weight: 600; opacity: 0.85; }
-
-.wheel-note {
-    margin-top: 10px;
-    color: var(--muted);
-    font-size: clamp(12px, 0.9vw, 15px);
+.spin-btn:focus-visible { outline: 3px solid #fff; outline-offset: 5px; }
+.spin-btn:disabled { cursor: wait; }
+.spin-kicker {
+    font-size: calc(var(--lf) * 0.7);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 800;
+    opacity: 0.68;
+    line-height: 1;
+}
+.spin-title {
+    font-size: calc(var(--lf) * 1.12);
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+.spin-sub {
+    font-size: calc(var(--lf) * 0.7);
     font-weight: 600;
+    opacity: 0.72;
+    line-height: 1;
+}
+.wheel-note {
+    position: relative;
+    text-align: center;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.55;
+    font-weight: 500;
+    max-width: 360px;
+    margin: 0 auto;
+}
+
+.live-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 .footer {
-    padding-top: 14px;
+    padding: 0 0 28px;
     display: flex;
     justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
     color: var(--muted);
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 600;
 }
 .footer b { color: var(--pink-deep); }
 
-/* Модальное окно */
 .modal {
     position: fixed;
     inset: 0;
@@ -466,32 +595,40 @@ main {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background: rgba(61, 26, 41, 0.4);
-    backdrop-filter: blur(10px);
+    background: rgba(61, 26, 41, 0.38);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 .modal.open { opacity: 1; visibility: visible; }
 .result-card {
-    width: min(460px, 100%);
+    width: min(420px, 100%);
     background: linear-gradient(180deg, #fffdfd, #fff5f9);
     border: 1px solid rgba(233, 30, 140, 0.16);
     border-radius: 32px;
     box-shadow: 0 40px 90px -34px rgba(61, 26, 41, 0.5);
-    padding: 34px 28px 28px;
+    padding: 30px 28px 24px;
     text-align: center;
     position: relative;
+    overflow: hidden;
     transform: translateY(12px) scale(0.97);
     transition: transform 0.35s cubic-bezier(0.15, 1, 0.3, 1);
 }
 .modal.open .result-card { transform: translateY(0) scale(1); }
-.result-kicker { color: var(--pink); font-size: 11px; font-weight: 800; letter-spacing: 0.17em; text-transform: uppercase; }
+.result-kicker {
+    color: var(--pink);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+}
 .result-icon {
-    width: 90px;
-    height: 90px;
-    margin: 16px auto 12px;
-    border-radius: 26px;
+    width: 88px;
+    height: 88px;
+    margin: 14px auto 12px;
+    border-radius: 28px;
     display: grid;
     place-items: center;
     font-size: 44px;
@@ -499,31 +636,363 @@ main {
     border: 1px solid var(--line);
     box-shadow: 0 14px 30px -18px rgba(233, 30, 140, 0.5);
 }
-.result-card h2 { font-size: 28px; font-weight: 800; letter-spacing: -0.04em; }
-.result-card p { margin: 8px auto 0; color: var(--muted); font-size: 14px; line-height: 1.45; max-width: 320px; }
-.result-actions { margin-top: 24px; }
-.btn-main {
+.result-card h2 {
+    font-size: 28px;
+    line-height: 1.15;
+    letter-spacing: -0.045em;
+    font-weight: 800;
+}
+.result-card p {
+    margin: 9px auto 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.55;
+    font-weight: 500;
+    max-width: 300px;
+}
+.result-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 22px;
+}
+.btn-main, .btn-ghost {
     width: 100%;
-    border: 0;
-    border-radius: 16px;
-    padding: 14px 20px;
-    background: linear-gradient(135deg, var(--pink), var(--pink-deep));
-    color: #fff;
-    font-size: 15px;
+    border-radius: 14px;
+    padding: 12px 16px;
+    font-size: 13px;
     font-weight: 800;
     cursor: pointer;
+    transition: transform 0.18s ease, filter 0.18s ease, background 0.18s ease;
+}
+.btn-main {
+    border: 0;
+    background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+    color: #fff;
     box-shadow: 0 12px 24px -14px rgba(173, 20, 87, 0.7);
-    transition: transform 0.18s ease, filter 0.18s ease;
 }
-.btn-main:hover { transform: translateY(-1px); filter: brightness(1.05); }
+.btn-main:hover { transform: translateY(-1px); filter: brightness(1.04); }
+.btn-ghost {
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--pink-deep);
+}
+.btn-ghost:hover { background: var(--pink-pale); }
+.btn-main:focus-visible, .btn-ghost:focus-visible { outline: 3px solid var(--pink-soft); outline-offset: 2px; }
 
-@media (max-width: 960px) {
-    .layout { grid-template-columns: 1fr; gap: 20px; }
-    .wheel-stage { --wheel: min(86vw, 480px); }
+.confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.confetti-piece {
+    position: absolute;
+    top: -14px;
+    width: 7px;
+    height: 12px;
+    border-radius: 2px;
+    opacity: 0;
+    animation: confetti 1.8s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+    animation-delay: var(--d, 0s);
 }
+@keyframes confetti {
+    0% { opacity: 1; transform: translate3d(0, 0, 0) rotate(0); }
+    100% { opacity: 0; transform: translate3d(var(--dx, 0), 340px, 0) rotate(var(--rot, 180deg)); }
+}
+
+@media (max-width: 980px) {
+    .layout { grid-template-columns: 1fr; }
+    .wheel-card { grid-column: 1; grid-row: 1; order: 1; }
+    .side { grid-column: 1; grid-row: 2; order: 2; }
+    .wheel-stage { --wheel: min(84vw, 460px); }
+    .hero { padding-top: 34px; }
+}
+@media (max-width: 620px) {
+    .topbar, main, .footer { width: min(100% - 24px, 1240px); }
+    .topbar { padding-top: 14px; }
+    .top-pill { font-size: 10px; padding: 7px 10px; }
+    .brand-mark { width: 36px; height: 36px; border-radius: 12px; font-size: 18px; }
+    .brand { font-size: 13px; }
+    .hero { padding: 30px 0 22px; }
+    .hero h1 { font-size: clamp(42px, 13vw, 58px); }
+    .hero p { font-size: 13.5px; }
+    .hero-stats { gap: 7px; }
+    .hero-stat { font-size: 10.5px; padding: 8px 10px; }
+    .hero-stat b { font-size: 14px; }
+    .panel { padding: 18px; border-radius: 24px; }
+    .panel h2 { font-size: 21px; }
+    .condition { grid-template-columns: 34px 1fr; gap: 11px; padding: 13px 0; }
+    .cond-num { width: 32px; height: 32px; border-radius: 10px; font-size: 9px; }
+    .condition h3 { font-size: 13px; }
+    .condition p { font-size: 11px; }
+    .prize-panel-wide .prize-list { grid-template-columns: 1fr 1fr; }
+    .wheel-card { padding: 14px 12px 16px; border-radius: 26px; }
+    .wheel-card-head { padding: 0 4px; }
+    .wheel-card-head h2 { font-size: 13px; }
+    .wheel-stage { --wheel: min(86vw, 360px); margin-top: 14px; }
+    .wheel { border-width: 7px; }
+    .pointer { border-left-width: 13px; border-right-width: 13px; border-top-width: 23px; top: -7px; }
+    .spin-btn { border-width: 5px; }
+    .wheel-note { font-size: 10px; max-width: 280px; }
+    .result-card { padding: 24px 20px 19px; border-radius: 26px; }
+    .result-card h2 { font-size: 24px; }
+    .result-icon { width: 74px; height: 74px; border-radius: 22px; font-size: 37px; }
+    .footer { font-size: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .spark { animation: none; }
+    .wheel { transition-duration: 1.2s !important; }
+    .confetti { display: none; }
+    .result-card, .spin-btn, .btn-main, .btn-ghost { transition: none; }
+}
+
+/* Условия: выбор одного выполненного условия = один спин */
+.friday-banner {
+    display: flex;
+    gap: 11px;
+    align-items: flex-start;
+    padding: 12px;
+    margin-bottom: 14px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #fff, var(--pink-pale));
+    border: 1px solid rgba(233, 30, 140, 0.13);
+}
+.friday-mark {
+    flex-shrink: 0;
+    padding: 5px 7px;
+    border-radius: 7px;
+    background: var(--pink);
+    color: #fff;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    line-height: 1.2;
+}
+.friday-banner b {
+    display: block;
+    color: var(--pink-deep);
+    font-size: 11.5px;
+    font-weight: 800;
+    line-height: 1.35;
+}
+.friday-banner p {
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 10.5px;
+    line-height: 1.45;
+    font-weight: 500;
+}
+.friday-banner strong { color: var(--pink-deep); font-weight: 800; }
+
+.selection-note {
+    margin-bottom: 12px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+    font-weight: 600;
+}
+
+.condition {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr);
+    gap: 11px;
+    align-items: start;
+    padding: 13px 9px;
+    margin: 0 -9px;
+    border: 0;
+    border-top: 1px solid rgba(233, 30, 140, 0.09);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--ink);
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+.condition:first-child { border-top: 0; padding-top: 7px; }
+.condition:last-child { padding-bottom: 7px; }
+.condition:hover { background: rgba(255, 255, 255, 0.66); }
+.condition:focus-visible { outline: 3px solid var(--pink-soft); outline-offset: 2px; }
+.condition.is-selected {
+    background: #fff;
+    box-shadow: inset 0 0 0 1px var(--pink), 0 10px 24px -22px rgba(173, 20, 87, 0.6);
+}
+.condition.is-used { opacity: 0.62; cursor: default; }
+.condition.is-used:hover { background: transparent; }
+.cond-check {
+    width: 19px;
+    height: 19px;
+    margin-top: 1px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(233, 30, 140, 0.32);
+    background: #fff;
+    display: grid;
+    place-items: center;
+    color: transparent;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.condition.is-selected .cond-check,
+.condition.is-used .cond-check {
+    background: var(--pink);
+    border-color: var(--pink);
+    color: #fff;
+}
+.condition.is-selected .cond-check::after,
+.condition.is-used .cond-check::after { content: '✓'; }
+.condition.is-used .cond-check { background: var(--green); border-color: var(--green); }
+.cond-body { display: flex; flex-direction: column; min-width: 0; }
+.cond-top { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 7px; }
+.cond-title {
+    color: var(--ink);
+    font-size: 13.5px;
+    line-height: 1.35;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+.cond-tag, .cond-used {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 6px;
+    border-radius: 6px;
+    font-size: 8.5px;
+    line-height: 1.2;
+    font-weight: 800;
+    white-space: nowrap;
+}
+.cond-tag { color: var(--pink-deep); background: var(--pink-light); }
+.cond-tag.is-exception { color: var(--green); background: var(--green-light); }
+.cond-used { display: none; color: var(--green); background: var(--green-light); }
+.condition.is-used .cond-tag { display: none; }
+.condition.is-used .cond-used { display: inline-flex; }
+.cond-desc {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 11.5px;
+    line-height: 1.45;
+    font-weight: 500;
+}
+.cond-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+.conditions-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(233, 30, 140, 0.09);
+}
+#selectionStatus { color: var(--muted); font-size: 10.5px; font-weight: 600; line-height: 1.4; }
+.reset-link {
+    border: 0;
+    background: transparent;
+    color: var(--pink-deep);
+    font-family: inherit;
+    font-size: 10.5px;
+    font-weight: 800;
+    cursor: pointer;
+    padding: 3px 0;
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+}
+.reset-link:hover { color: var(--pink); }
+.reset-link:focus-visible { outline: 3px solid var(--pink-soft); outline-offset: 3px; }
+
+/* Подсказка на мобильном: условия ниже колеса */
+.mobile-hint {
+    display: none;
+    text-align: center;
+    color: var(--pink-deep);
+    font-size: 10.5px;
+    line-height: 1.4;
+    font-weight: 700;
+    margin: 8px auto 0;
+    max-width: 300px;
+}
+@media (max-width: 980px) {
+    .mobile-hint { display: block; }
+}
+
+/* Полные названия призов на колесе */
+.wheel-label { height: 52px; margin-top: -26px; }
+.wl-icon { font-size: 1.18em; }
+.wl-text { line-height: 1.02; }
+.wl-line { display: block; }
+.spin-btn:disabled { cursor: not-allowed; opacity: 0.82; }
+.spin-btn.is-spinning:disabled { cursor: wait; opacity: 1; }
+
+@media (max-width: 620px) {
+    .friday-banner { padding: 10px; gap: 8px; }
+    .selection-note { font-size: 10.5px; }
+    .condition { grid-template-columns: 19px minmax(0, 1fr); gap: 9px; padding: 10px 7px; margin: 0 -7px; }
+    .cond-title { font-size: 12.5px; }
+    .cond-desc { font-size: 10.5px; }
+    .cond-tag, .cond-used { font-size: 8px; padding: 2px 5px; }
+    .conditions-foot { align-items: flex-start; }
+    #selectionStatus { flex: 1 1 170px; }
+    .wheel-label { height: 48px; margin-top: -24px; }
+}
+
+
+/* Условия — обычный статичный список без выбора */
+.conditions-static {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.conditions-static .condition {
+    width: auto;
+    display: grid;
+    grid-template-columns: 8px minmax(0, 1fr);
+    gap: 11px;
+    align-items: start;
+    padding: 14px 0;
+    margin: 0;
+    border: 0;
+    border-top: 1px solid rgba(233, 30, 140, 0.09);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: var(--ink);
+    font-family: inherit;
+    text-align: left;
+    cursor: default;
+    transition: none;
+}
+.conditions-static .condition:first-child { border-top: 0; padding-top: 2px; }
+.conditions-static .condition:last-child { padding-bottom: 0; }
+.conditions-static .condition:hover { background: transparent; }
+.cond-dot {
+    width: 7px;
+    height: 7px;
+    margin-top: 6px;
+    border-radius: 50%;
+    background: var(--pink);
+    box-shadow: 0 0 0 3px var(--pink-light);
+}
+.conditions-static .cond-title { font-size: 13.5px; line-height: 1.35; }
+.conditions-static .cond-desc { font-size: 11.5px; line-height: 1.45; }
+@media (max-width: 620px) {
+    .conditions-static .condition { grid-template-columns: 7px minmax(0, 1fr); gap: 9px; padding: 11px 0; }
+    .conditions-static .cond-title { font-size: 12.5px; }
+    .conditions-static .cond-desc { font-size: 10.5px; }
+    .conditions-static .condition:first-child { padding-top: 2px; }
+    .conditions-static .condition:last-child { padding-bottom: 0; }
+}
+
 </style>
 </head>
 <body>
+<div class="ambient" aria-hidden="true">
+    <span class="spark s1">✦</span>
+    <span class="spark s2">✧</span>
+    <span class="spark s3">✦</span>
+    <span class="spark s4">✧</span>
+    <span class="spark s5">✦</span>
+</div>
 
 <header class="topbar">
     <div class="brand">
@@ -534,203 +1003,357 @@ main {
 </header>
 
 <main>
-    <section class="hero">
+    <section class="hero" aria-labelledby="pageTitle">
         <div class="eyebrow">Конкурс для МПЛ</div>
-        <h1>Колесо <span>Фортуны</span></h1>
-        <p>Условия участия выполнены (ДВД 12). Крутите колесо Фортуны и забирайте заслуженные призы!</p>
-        <div class="hero-stats">
-            <span class="hero-stat"><b>4</b> условия (ДВД 12)</span>
+        <h1 id="pageTitle">Колесо <span>Фортуны</span></h1>
+        <p>Пять условий конкурса. Количество спинов не ограничено — крутите и забирайте призы.</p>
+        <div class="hero-stats" aria-label="Параметры конкурса">
+            <span class="hero-stat"><b>5</b> условий</span>
             <span class="hero-stat"><b>13</b> секторов</span>
-            <span class="hero-stat"><b>8</b> видов призов</span>
+            <span class="hero-stat"><b>9</b> призов</span>
+            <span class="hero-stat"><b>∞</b> спинов</span>
         </div>
     </section>
 
     <div class="layout">
-        <!-- Условия -->
-        <section class="panel">
-            <div class="panel-head">
-                <div>
-                    <span class="panel-kicker">Правила</span>
-                    <h2>Условия участия</h2>
-                </div>
-                <span class="panel-count">ДВД 12</span>
-            </div>
-
-            <div class="friday-banner">
-                <span class="friday-mark">МПЛ</span>
-                <div>
-                    <b>Условия конкурса выполнены</b>
-                    <p>Проверьте выполнение всех пунктов для получения доступа к колесу.</p>
-                </div>
-            </div>
-
-            <ul class="conditions-static">
-                <li class="condition">
-                    <span class="cond-dot"></span>
-                    <div>
-                        <div class="cond-top">
-                            <span class="cond-title">Условие 1</span>
-                            <span class="cond-tag">ДВД 12</span>
-                        </div>
-                        <p class="cond-desc">Сделать 12 назначений день в день.</p>
-                    </div>
-                </li>
-                <li class="condition">
-                    <span class="cond-dot"></span>
-                    <div>
-                        <div class="cond-top">
-                            <span class="cond-title">Условие 2</span>
-                            <span class="cond-tag">18 записей</span>
-                        </div>
-                        <p class="cond-desc">Общее количество записей — 18.</p>
-                    </div>
-                </li>
-                <li class="condition">
-                    <span class="cond-dot"></span>
-                    <div>
-                        <div class="cond-top">
-                            <span class="cond-title">Условие 3</span>
-                            <span class="cond-tag">Кейсы</span>
-                        </div>
-                        <p class="cond-desc">Прислал 3 личных звонка с крутым кейсом: долгий звонок, три отработки возражения, отработка негатива, работа со сложным клиентом.</p>
-                    </div>
-                </li>
-                <li class="condition">
-                    <span class="cond-dot"></span>
-                    <div>
-                        <div class="cond-top">
-                            <span class="cond-title">Условие 4</span>
-                            <span class="cond-tag">Друг в работу</span>
-                        </div>
-                        <p class="cond-desc">Привел друга в работу. Условие: друг прошел стажировку и отработал неделю.</p>
-                    </div>
-                </li>
-                <li class="condition">
-                    <span class="cond-dot"></span>
-                    <div>
-                        <div class="cond-top">
-                            <span class="cond-title">Условие 5</span>
-                            <span class="cond-tag">ЗНР</span>
-                        </div>
-                        <p class="cond-desc">Сделал 6 назначений из ЗНР.</p>
-                    </div>
-                </li>
-            </ul>
-        </section>
-
-        <!-- Адаптивное Колесо -->
-        <section class="wheel-card">
+        <section class="wheel-card" aria-labelledby="wheelTitle">
             <div class="wheel-card-head">
                 <div>
                     <span class="panel-kicker">Испытайте удачу</span>
-                    <h2>Крутите колесо</h2>
+                    <h2 id="wheelTitle">Один спин — один приз</h2>
                 </div>
                 <span class="wheel-badge">13 секторов</span>
             </div>
 
-            <div class="wheel-stage">
-                <div class="pointer"></div>
-                <div class="wheel" id="wheel">
+            <div class="wheel-stage" id="wheelStage">
+                <div class="pointer" aria-hidden="true"></div>
+                <div class="wheel" id="wheel" aria-hidden="true">
                     <div id="wheelLabels"></div>
                 </div>
-                <button class="spin-btn" id="spinBtn" type="button">
+                <button class="spin-btn" id="spinBtn" type="button" aria-label="Крутить колесо Фортуны">
                     <span class="spin-kicker">нажми</span>
-                    <span class="spin-title">КРУТИТЬ</span>
-                    <span class="spin-sub">удачи ✨</span>
+                    <span class="spin-title" id="spinTitle">КРУТИТЬ</span>
+                    <span class="spin-sub" id="spinSub">удачи ✨</span>
                 </button>
             </div>
-            <p class="wheel-note">После остановки колеса покажите приз руководителю.</p>
+            <p class="wheel-note">После остановки колеса покажите приз руководителю. Спины не ограничены.</p>
+            <div class="live-status" id="liveStatus" aria-live="polite"></div>
         </section>
+
+        <aside class="side">
+            <section class="panel conditions-panel" aria-labelledby="conditionsTitle">
+                <div class="panel-head">
+                    <div>
+                        <span class="panel-kicker">Правила</span>
+                        <h2 id="conditionsTitle">Условия участия</h2>
+                    </div>
+                    <span class="panel-count">5 условий</span>
+                </div>
+
+                <div class="friday-banner">
+                    <span class="friday-mark">ПЯТНИЦА</span>
+                    <div>
+                        <b id="contestDate">Ближайшая пятница</b>
+                        <p>Конкурс проходит каждую пятницу. Условия засчитываются только в день конкурса. <strong>Исключение — условие 4.</strong></p>
+                    </div>
+                </div>
+
+                <ul class="conditions conditions-static" id="conditionsList">
+                    <li class="condition">
+                        <span class="cond-dot" aria-hidden="true"></span>
+                        <span class="cond-body">
+                            <span class="cond-top">
+                                <span class="cond-title">ДВД 12</span>
+                                <span class="cond-tag">в день конкурса</span>
+                            </span>
+                            <span class="cond-desc">Сделать 12 назначений день в день</span>
+                        </span>
+                    </li>
+
+                    <li class="condition">
+                        <span class="cond-dot" aria-hidden="true"></span>
+                        <span class="cond-body">
+                            <span class="cond-top">
+                                <span class="cond-title">Общее количество записей 18</span>
+                                <span class="cond-tag">в день конкурса</span>
+                            </span>
+                            <span class="cond-desc">Оформить 18 назначений за весь день</span>
+                        </span>
+                    </li>
+
+                    <li class="condition">
+                        <span class="cond-dot" aria-hidden="true"></span>
+                        <span class="cond-body">
+                            <span class="cond-top">
+                                <span class="cond-title">3 личных звонка с крутым кейсом</span>
+                                <span class="cond-tag">в день конкурса</span>
+                            </span>
+                            <span class="cond-desc">Пришлите три звонка, в которых видно глубину работы с клиентом.</span>
+                            <span class="cond-chips">
+                                <span class="cond-chip">долгий звонок</span>
+                                <span class="cond-chip">3 отработки возражения</span>
+                                <span class="cond-chip">отработка негатива</span>
+                                <span class="cond-chip">работа со сложным клиентом</span>
+                            </span>
+                        </span>
+                    </li>
+
+                    <li class="condition">
+                        <span class="cond-dot" aria-hidden="true"></span>
+                        <span class="cond-body">
+                            <span class="cond-top">
+                                <span class="cond-title">Привёл друга в работу</span>
+                                <span class="cond-tag is-exception">можно заранее</span>
+                            </span>
+                            <span class="cond-desc">Друг прошёл стажировку и отработал неделю.</span>
+                        </span>
+                    </li>
+
+                    <li class="condition">
+                        <span class="cond-dot" aria-hidden="true"></span>
+                        <span class="cond-body">
+                            <span class="cond-top">
+                                <span class="cond-title">6 назначений из ЗНР</span>
+                                <span class="cond-tag">в день конкурса</span>
+                            </span>
+                            <span class="cond-desc">Сделай 6 назначений из стадии ЗАКРЫТО НЕ РЕАЛИЗОВАН</span>
+                        </span>
+                    </li>
+                </ul>
+            </section>
+        </aside>
     </div>
 </main>
 
 <footer class="footer">
-    <div>Конкурс для МПЛ · <b>Колесо Фортуны</b></div>
-    <div>Удачи в красивых кейсах 🌸</div>
+    <span>Конкурс для МПЛ · <b>Колесо Фортуны</b></span>
+    <span>Удачи и красивых кейсов ✦</span>
 </footer>
 
-<!-- Модальное окно -->
-<div class="modal" id="resultModal">
+<div class="modal" id="resultModal" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
     <div class="result-card">
-        <span class="result-kicker">Поздравляем! Ваш приз</span>
-        <div class="result-icon" id="resIcon">🎁</div>
-        <h2 id="resTitle">Приз</h2>
-        <p id="resDesc">Покажите этот экран руководителю.</p>
+        <div class="confetti" id="confetti" aria-hidden="true"></div>
+        <div class="result-kicker">Ваш приз</div>
+        <div class="result-icon" id="resultIcon">🎁</div>
+        <h2 id="resultTitle">Приз</h2>
+        <p id="resultText">Покажите этот экран руководителю, чтобы забрать приз.</p>
         <div class="result-actions">
-            <button class="btn-main" id="closeModal">Отлично, забрать!</button>
+            <button class="btn-main" id="resultClose" type="button">Забрать приз</button>
+            <button class="btn-ghost" id="spinAgain" type="button">Крутить ещё</button>
         </div>
     </div>
 </div>
 
+<noscript>
+    <div style="position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:#fdf2f7;padding:24px;text-align:center;font-family:sans-serif;color:#3d1a29;">
+        Для работы колеса включите JavaScript в браузере.
+    </div>
+</noscript>
+
 <script>
-const prizes = [
-    { text: "+100 ₽ к выплате", icon: "💵" },
-    { text: "+500 ₽ к выплате", icon: "💰" },
-    { text: "+1% к конверсии", icon: "📈" },
-    { text: "+15 минут перерыва", icon: "⏱️" },
-    { text: "Уйти на 1 час раньше", icon: "🚪" },
-    { text: "DAY OFF", icon: "🏖️" },
-    { text: "Комплимент от шефа", icon: "☕" },
-    { text: "Статус в группе", icon: "👑" },
-    { text: "+100 ₽ к выплате", icon: "💵" },
-    { text: "Комплимент от шефа", icon: "☕" },
-    { text: "Статус в группе", icon: "👑" },
-    { text: "Комплимент от шефа", icon: "☕" },
-    { text: "Статус в группе", icon: "👑" }
-];
+(function () {
+    'use strict';
 
-const wheel = document.getElementById('wheel');
-const wheelLabels = document.getElementById('wheelLabels');
-const spinBtn = document.getElementById('spinBtn');
-const modal = document.getElementById('resultModal');
-const closeModal = document.getElementById('closeModal');
-const resTitle = document.getElementById('resTitle');
-const resIcon = document.getElementById('resIcon');
+    const PRIZES = {
+        p100:       { name: '+100 ₽ к выплате',        lines: ['+100 ₽', 'к выплате'],       icon: '💸' },
+        p500:       { name: '+500 ₽ к выплате',        lines: ['+500 ₽', 'к выплате'],       icon: '💰' },
+        p1:         { name: '+1% к конверсии',          lines: ['+1%', 'к конверсии'],         icon: '📈' },
+        p15:        { name: '+15 минут перерыва',       lines: ['+15 минут', 'перерыва'],      icon: '☕' },
+        hour:       { name: 'Уйти на 1 час раньше',     lines: ['Уйти на 1 час', 'раньше'],    icon: '🕐' },
+        dayoff:     { name: 'DAY OFF',                   lines: ['DAY OFF'],                    icon: '🌴' },
+        compliment: { name: 'Комплимент от шефа',       lines: ['Комплимент', 'от шефа'],      icon: '🍬' },
+        immunity:   { name: 'Иммунитет от штрафа', lines: ['Иммунитет', 'от штрафа'], icon: '🛡️' },
+        status:     { name: 'Статус в группе',          lines: ['Статус', 'в группе'],         icon: '⭐' }
+    };
 
-const sliceAngle = 360 / prizes.length;
+    const SECTORS = [
+        'p100', 'compliment', 'p500', 'status',
+        'p1', 'compliment', 'p15', 'status',
+        'hour', 'compliment', 'dayoff', 'immunity', 'status'
+    ];
+    const SEGMENT_ANGLE = 360 / SECTORS.length;
 
-function renderLabels() {
-    wheelLabels.innerHTML = '';
-    prizes.forEach((p, i) => {
-        const angle = i * sliceAngle + sliceAngle / 2;
-        const div = document.createElement('div');
-        div.className = 'wheel-label';
-        div.style.setProperty('--a', angle + 'deg');
-        div.innerHTML = `<span class="wl-icon">${p.icon}</span><span class="wl-text">${p.text}</span>`;
-        wheelLabels.appendChild(div);
-    });
-}
-renderLabels();
+    const PALETTE = [
+        '#fbe4ef', '#fff7fb', '#f7d1e2', '#fff1f7',
+        '#f9dbe9', '#fff9fc', '#f5c9dd', '#fff4f8',
+        '#fae0ec', '#fff8fb', '#f6cede', '#fff0f6', '#fde9f2'
+    ];
 
-let currentRotation = 0;
-let isSpinning = false;
+    const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 
-spinBtn.addEventListener('click', () => {
-    if (isSpinning) return;
-    isSpinning = true;
-    spinBtn.disabled = true;
+    const wheel = document.getElementById('wheel');
+    const wheelLabels = document.getElementById('wheelLabels');
+    const spinBtn = document.getElementById('spinBtn');
+    const spinTitle = document.getElementById('spinTitle');
+    const spinSub = document.getElementById('spinSub');
+    const spinKicker = spinBtn.querySelector('.spin-kicker');
+    const liveStatus = document.getElementById('liveStatus');
+    const modal = document.getElementById('resultModal');
+    const resultIcon = document.getElementById('resultIcon');
+    const resultTitle = document.getElementById('resultTitle');
+    const resultText = document.getElementById('resultText');
+    const resultClose = document.getElementById('resultClose');
+    const spinAgain = document.getElementById('spinAgain');
+    const confetti = document.getElementById('confetti');
+    const contestDate = document.getElementById('contestDate');
 
-    const randomChoice = Math.floor(Math.random() * prizes.length);
-    const extraTurns = 5;
-    const targetAngle = currentRotation + (extraTurns * 360) + (360 - (randomChoice * sliceAngle + sliceAngle / 2));
-    
-    currentRotation = targetAngle;
-    wheel.style.transform = `rotate(${currentRotation}deg)`;
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let rotation = 0;
+    let spinning = false;
+    let spinTimer = null;
 
-    setTimeout(() => {
-        isSpinning = false;
-        spinBtn.disabled = false;
-        const prize = prizes[randomChoice];
-        resTitle.textContent = prize.text;
-        resIcon.textContent = prize.icon;
+    function nextFriday() {
+        const now = new Date();
+        const diff = (5 - now.getDay() + 7) % 7;
+        const date = new Date(now.getFullYear(), now.getMonth(), now.getDate() + diff);
+        return { date: date, today: diff === 0 };
+    }
+
+    function setContestDate() {
+        if (!contestDate) return;
+        const friday = nextFriday();
+        const prefix = friday.today ? 'Сегодня, ' : 'Ближайшая пятница — ';
+        contestDate.textContent = prefix + friday.date.getDate() + ' ' + MONTHS[friday.date.getMonth()] + ' ' + friday.date.getFullYear();
+    }
+
+    function makeGradient() {
+        const stops = [];
+        for (let i = 0; i < SECTORS.length; i++) {
+            const start = i * SEGMENT_ANGLE;
+            const end = start + SEGMENT_ANGLE;
+            stops.push(PALETTE[i] + ' ' + start + 'deg ' + (end - 0.7) + 'deg');
+            stops.push('#ffffff ' + (end - 0.7) + 'deg ' + end + 'deg');
+        }
+        wheel.style.background = 'conic-gradient(from -' + (SEGMENT_ANGLE / 2) + 'deg, ' + stops.join(', ') + ')';
+    }
+
+    function makeLabels() {
+        wheelLabels.innerHTML = '';
+        SECTORS.forEach(function (key, i) {
+            const p = PRIZES[key];
+            const label = document.createElement('div');
+            label.className = 'wheel-label';
+            label.style.setProperty('--a', (i * SEGMENT_ANGLE) + 'deg');
+            const lines = p.lines.map(function (line) {
+                return '<span class="wl-line">' + line + '</span>';
+            }).join('');
+            label.innerHTML = '<span class="wl-icon">' + p.icon + '</span><span class="wl-text">' + lines + '</span>';
+            wheelLabels.appendChild(label);
+        });
+    }
+
+    function updateSpinUI() {
+        spinBtn.disabled = spinning;
+        spinBtn.classList.toggle('is-spinning', spinning);
+        if (spinning) {
+            spinKicker.textContent = 'крутим';
+            spinTitle.textContent = '…';
+            spinSub.textContent = 'удачи';
+        } else {
+            spinKicker.textContent = 'нажми';
+            spinTitle.textContent = 'КРУТИТЬ';
+            spinSub.textContent = 'удачи ✨';
+        }
+    }
+
+    function randomIndex(n) {
+        if (window.crypto && window.crypto.getRandomValues) {
+            const values = new Uint32Array(1);
+            window.crypto.getRandomValues(values);
+            return values[0] % n;
+        }
+        return Math.floor(Math.random() * n);
+    }
+
+    function spinTo(index) {
+        if (spinning) return;
+        spinning = true;
+        updateSpinUI();
+        liveStatus.textContent = 'Колесо крутится…';
+
+        const targetMod = (360 - ((index * SEGMENT_ANGLE) % 360)) % 360;
+        const currentMod = ((rotation % 360) + 360) % 360;
+        const delta = ((targetMod - currentMod) + 360) % 360;
+        const target = rotation + 360 * 5 + delta;
+        const duration = reduceMotion ? 1200 : 5200;
+
+        wheel.style.transitionDuration = duration + 'ms';
+        wheel.style.transform = 'rotate(' + target + 'deg)';
+        rotation = target;
+
+        clearTimeout(spinTimer);
+        spinTimer = setTimeout(function () { finishSpin(index); }, duration + 100);
+    }
+
+    function spin() {
+        if (spinning) return;
+        spinTo(randomIndex(SECTORS.length));
+    }
+
+    function finishSpin(index) {
+        if (!spinning) return;
+        spinning = false;
+        updateSpinUI();
+        const prize = PRIZES[SECTORS[index]];
+        liveStatus.textContent = 'Выпал приз: ' + prize.name;
+        showResult(prize);
+    }
+
+    function burstConfetti() {
+        if (reduceMotion) return;
+        confetti.innerHTML = '';
+        const colors = ['#e91e8c', '#f48fb1', '#f8bbd0', '#c2185b', '#ffffff', '#ffd6e5'];
+        for (let i = 0; i < 34; i++) {
+            const piece = document.createElement('span');
+            piece.className = 'confetti-piece';
+            piece.style.left = Math.random() * 100 + '%';
+            piece.style.background = colors[i % colors.length];
+            piece.style.setProperty('--d', (Math.random() * 0.35) + 's');
+            piece.style.setProperty('--dx', (Math.random() * 180 - 90) + 'px');
+            piece.style.setProperty('--rot', (Math.random() * 720 - 360) + 'deg');
+            confetti.appendChild(piece);
+        }
+        setTimeout(function () { confetti.innerHTML = ''; }, 2300);
+    }
+
+    function showResult(prize) {
+        resultIcon.textContent = prize.icon;
+        resultTitle.textContent = prize.name;
+        resultText.textContent = 'Покажите этот экран руководителю, чтобы забрать приз.';
         modal.classList.add('open');
-    }, 5200);
-});
+        document.body.classList.add('modal-open');
+        burstConfetti();
+        setTimeout(function () { resultClose.focus(); }, 60);
+    }
 
-closeModal.addEventListener('click', () => {
-    modal.classList.remove('open');
-});
+    function closeResult() {
+        modal.classList.remove('open');
+        document.body.classList.remove('modal-open');
+        spinBtn.focus({ preventScroll: true });
+    }
+
+    function spinAgainNow() {
+        closeResult();
+        setTimeout(spin, 260);
+    }
+
+    spinBtn.addEventListener('click', spin);
+    resultClose.addEventListener('click', closeResult);
+    if (spinAgain) spinAgain.addEventListener('click', spinAgainNow);
+    modal.addEventListener('click', function (e) { if (e.target === modal) closeResult(); });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('open')) closeResult();
+    });
+
+    setContestDate();
+    setInterval(setContestDate, 60 * 60 * 1000);
+    document.addEventListener('visibilitychange', function () {
+        if (!document.hidden) setContestDate();
+    });
+    makeGradient();
+    makeLabels();
+    updateSpinUI();
+})();
 </script>
-
 </body>
 </html>
